@@ -20,13 +20,17 @@ resource "azurerm_storage_account" "web" {
   depends_on = [azurerm_dns_cname_record.www]
 }
 
+// Hacks
+data "external" "frontend-zip-etag" {
+  program = ["${path.module}/hacks/etag.sh", var.frontend_zip]
+}
+
 resource "null_resource" "frontend-payload" {
   triggers = {
-    // TODO: Some stort of stable trigger?
-    build_time = timestamp()
+    zip_file_etag = data.external.frontend-zip-etag.result["etag"]
   }
 
   provisioner "local-exec" {
-    command = "${path.module}/frontend.sh ${var.frontend_zip} http://${azurerm_container_group.backend.fqdn}:8080/api ${azurerm_storage_account.web.name} ${azurerm_storage_account.web.primary_access_key}"
+    command = "${path.module}/hacks/frontend.sh ${var.frontend_zip} http://${azurerm_container_group.backend.fqdn}:8080/api ${azurerm_storage_account.web.name} ${azurerm_storage_account.web.primary_access_key}"
   }
 }

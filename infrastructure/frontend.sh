@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
-
 # Sane(r) bash defaults
 set -eou pipefail
-
-set -x # TODO: Debugging only
 
 FRONTEND_ZIP_URL="$1"
 BACKEND_API_URL="$2"
@@ -30,4 +27,6 @@ az storage blob upload-batch \
    --account-key "$STORAGE_ACCOUNT_KEY" \
    --source payload/ \
    --destination '$web'
-#TODO: Remove zip
+
+rm $ZIP_LOCATION
+rm -rf payload

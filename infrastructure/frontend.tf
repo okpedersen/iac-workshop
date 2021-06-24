@@ -20,36 +20,6 @@ resource "azurerm_storage_account" "web" {
   depends_on = [azurerm_dns_cname_record.www]
 }
 
-locals {
-  filetype_endings = {
-    js   = "application/javascript"
-    ico  = "image/x-icon"
-    html = "text/html"
-    json = "application/json"
-    map  = "application/json"
-    js   = "application/javascript"
-    txt  = "text/plain"
-  }
-}
-
-/*
-resource "azurerm_storage_blob" "static-files" {
-  for_each               = fileset("${path.module}/payload", "**")
-  name                   = each.key
-  storage_account_name   = azurerm_storage_account.web.name
-  storage_container_name = "$web"
-  type                   = "Block"
-  content_type           = local.filetype_endings[regex("[a-z]+$", "${each.key}")]
-  source = "${path.module}/payload/${each.key}"
-
-  # Forces recreation if the file contents changes
-  content_md5 = filemd5("${path.module}/payload/${each.key}")
-
-  depends_on = [null_resource.frontend-payload]
-
-}
-*/
-
 resource "null_resource" "frontend-payload" {
   triggers = {
     // TODO: Some stort of stable trigger?

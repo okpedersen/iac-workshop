@@ -23,6 +23,7 @@ terraform {
 }
 
 provider "azurerm" {
+  // These values must be changed if the workshop is run outside the BekkOps/Nettskyprogrammet tenant/subscription.
   tenant_id       = "ef45594d-07dd-4e5e-bc95-0bc6b361e482"
   subscription_id = "9539bc24-8692-4fe2-871e-3733e84b1b73"
   features {}

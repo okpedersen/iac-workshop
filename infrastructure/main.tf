@@ -1,7 +1,8 @@
 locals {
+  resource_prefix     = "iac-workshop-"
   unique_id_raw       = random_string.id.result
-  unique_id           = "iac-workshop-${random_string.id.result}"
-  unique_id_sanitized = replace(local.unique_id, "-", "")
+  unique_id           = "${local.resource_prefix}${random_string.id.result}"
+  unique_id_sanitized = replace(local.unique_id, "-", "") # Some resources only support alphanumeric characters, and not '-'
 
   web_hostname = "${local.unique_id_raw}.rettiprod.live"
 }

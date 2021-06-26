@@ -3,6 +3,7 @@ locals {
   assumed_storage_account_web_host = "${local.unique_id_sanitized}.z6.web.core.windows.net"
 }
 
+// If the workshop is run externally, these values should be changed
 data "azurerm_dns_zone" "rettiprod_live" {
   name                = "rettiprod.live"
   resource_group_name = "rett-i-prod-admin"

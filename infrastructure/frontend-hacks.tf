@@ -9,6 +9,7 @@
 // Runs the hacks/etag.sh script, which returns a json object on the format
 // `{"etag": "<etag>"}`.  The etag will change when the frontend changes, and
 // other resources can use it to decide whether to do changes.
+// Note: This is done during the *plan* phase.
 data "external" "frontend-zip-etag" {
   program = ["${path.module}/hacks/etag.sh", var.frontend_zip]
 }
